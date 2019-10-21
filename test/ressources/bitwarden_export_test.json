@@ -1,0 +1,50 @@
+{
+  "folders": [
+    {
+      "id": "folder_0",
+      "name": "Development"
+    },
+    {
+      "id": "folder_1",
+      "name": "General"
+    }
+  ],
+  "items": [
+    {
+      "id": "item_00",
+      "organizationId": null,
+      "folderId": "folder_0",
+      "type": 1,
+      "name": "aboutyou",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "www.aboutyou.de"
+          }
+        ],
+        "username": "test@gmail.de",
+        "password": "abcdef",
+        "totp": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "item_01",
+      "organizationId": null,
+      "folderId": "folder_1",
+      "type": 1,
+      "name": "account",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "username": "test@gmail.de",
+        "password": "abcdef",
+        "totp": null
+      },
+      "collectionIds": null
+    }
+  ]
+}

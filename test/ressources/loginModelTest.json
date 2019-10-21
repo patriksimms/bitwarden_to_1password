@@ -1,0 +1,13 @@
+{
+  "login": {
+    "uris": [
+      {
+        "match": null,
+        "uri": "www.aboutyou.de"
+      }
+    ],
+    "username": "test@gmail.de",
+    "password": "abcdef",
+    "totp": null
+  }
+}

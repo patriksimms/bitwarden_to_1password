@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "id": "01",
+      "name": "Development"
+    },
+    {
+      "id": "02",
+      "name": "Uni"
+    },
+    {
+      "id": "03",
+      "name": "Games"
+    },
+    {
+      "id": "04",
+      "name": "General"
+    },
+    {
+      "id": "05",
+      "name": "Payment"
+    },
+    {
+      "id": "06",
+      "name": "Shopping"
+    },
+    {
+      "id": "07",
+      "name": "Social Media"
+    },
+    {
+      "id": "08",
+      "name": "Work"
+    }
+  ]
+}

@@ -17,7 +17,9 @@ public class CSVCreator {
 
     public String createCSV() {
 
-        ImportModel currModel = this.fxmlDocumentController.getJsonModel();
+        assert this.fxmlDocumentController.getJsonModel() instanceof ImportModel;
+
+        ImportModel currModel = (ImportModel) this.fxmlDocumentController.getJsonModel();
         StringBuilder sb = new StringBuilder();
 
         for (ItemModel item : currModel.items) {
