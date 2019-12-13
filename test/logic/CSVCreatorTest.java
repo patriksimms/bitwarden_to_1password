@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Test class for the CSV creator
+ *
+ * @author Patrik Simms
+ */
 class CSVCreatorTest {
 
     private static final String testClasspath = FXMLDocumentControllerTest.class
@@ -36,10 +39,12 @@ class CSVCreatorTest {
 
         fxmlDocumentController.loadJSON(testFile, ImportModel.class);
 
-        CSVCreator csvCreator = new CSVCreator(fxmlDocumentController);
-        csvCreator.createCSV("/Users/patrikuni/projects/bitwarden_to_1password");
+        String homeDir = System.getProperty("user.home");
 
-        File generated = new File("/Users/patrikuni/projects/bitwarden_to_1password" +
+        CSVCreator csvCreator = new CSVCreator(fxmlDocumentController);
+        csvCreator.createCSV( homeDir + "/projects/bitwarden_to_1password");
+
+        File generated = new File(homeDir + "/projects/bitwarden_to_1password" +
                 "/bitwardenExport.csv");
 
         FileAssert.assertEquals(new File(testClasspath + "/ressources" +

@@ -19,6 +19,10 @@ import java.util.Set;
 public class CSVCreator {
 
     /**
+     * The file name of the export file
+     */
+    public static final String EXPORT_CSV_FILE_NAME = "bitwardenExport.csv";
+    /**
      * The Controller for the JSON Parser
      */
     private final FXMLDocumentController fxmlDocumentController;
@@ -77,7 +81,8 @@ public class CSVCreator {
         sb.deleteCharAt(sb.length() - 1);
 
         try {
-            PrintWriter pw = new PrintWriter(path + "/bitwardenExport.csv");
+            // TODO adjust implementation for not OSX OS
+            PrintWriter pw = new PrintWriter(EXPORT_CSV_FILE_NAME);
             pw.println(sb.toString());
             pw.close();
         } catch (FileNotFoundException e) {
