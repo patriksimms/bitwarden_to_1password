@@ -36,12 +36,18 @@
       "organizationId": null,
       "folderId": "folder_1",
       "type": 1,
-      "name": "account",
+      "name": "facebook",
       "notes": null,
       "favorite": false,
       "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "www.facebook.com"
+          }
+        ],
         "username": "test@gmail.de",
-        "password": "abcdef",
+        "password": "qwertz",
         "totp": null
       },
       "collectionIds": null
