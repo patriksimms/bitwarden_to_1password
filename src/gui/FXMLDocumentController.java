@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import logic.CSVCreator;
 import logic.MissingAttributeException;
@@ -35,6 +37,9 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
 
     @FXML
     private Button btnSaveCSV;
+
+    @FXML
+    private ImageView loadingSpinner;
 
     private CSVCreator csvCreator;
 
@@ -82,8 +87,10 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
 
         if (file != null) {
             // TODO ImportModel has to be of Type T
+            this.loadingSpinner.setVisible(true);
             loadJSON(file, (Class<T>) ImportModel.class);
         }
+        this.loadingSpinner.setVisible(false);
     }
 
     @FXML
@@ -95,7 +102,9 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
+                this.loadingSpinner.setVisible(true);
                 csvCreator.createCSV(file.getPath());
+                this.loadingSpinner.setVisible(false);
             } catch (MissingAttributeException e) {
                 // TODO print stacktrace to GUI
                 e.printStackTrace();
