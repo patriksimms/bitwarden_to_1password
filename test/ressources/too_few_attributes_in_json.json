@@ -1,0 +1,58 @@
+{
+  "folders": [
+    {
+      "id": "folder_0",
+      "name": "Development"
+    },
+    {
+      "id": "folder_1",
+      "name": "General"
+    }
+  ],
+  "items": [
+    {
+      "id": "item_00",
+      "organizationId": null,
+      "folderId": "folder_0",
+      "type": 1,
+      "notes": null,
+      "favorite": false,
+      "too_many_1" : false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "www.aboutyou.de",
+            "too_many_2" : "too many"
+          }
+        ],
+        "username": "test@gmail.de",
+        "password": "abcdef",
+        "totp": null
+      },
+      "collectionIds": null,
+      "too_many_3" : "still to many"
+    },
+    {
+      "id": "item_01",
+      "organizationId": null,
+      "folderId": "folder_1",
+      "type": 1,
+      "name": "facebook",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "www.facebook.com"
+          }
+        ],
+        "username": "test@gmail.de",
+        "password": "qwertz",
+        "totp": null
+      },
+      "collectionIds": null
+    }
+  ]
+}

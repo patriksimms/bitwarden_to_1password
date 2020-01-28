@@ -37,7 +37,7 @@ public class CSVCreator {
      *
      * @param fxmlDocumentController the Controller which deserializes the JSON into a JavaObject.
      */
-    CSVCreator(FXMLDocumentController fxmlDocumentController) {
+    public CSVCreator(FXMLDocumentController fxmlDocumentController) {
         this.fxmlDocumentController = fxmlDocumentController;
         this.initDefaultExportAttributes();
     }
@@ -60,10 +60,8 @@ public class CSVCreator {
      * Creates a csv compatible String for the 1password Import.
      *
      * @param path the path the file should be written to
-     * @return the csv String
      */
-    String createCSV(String path) {
-
+    public void createCSV(String path) throws MissingAttributeException {
         assert this.fxmlDocumentController.getJsonModel() instanceof ImportModel;
         ImportModel currModel = (ImportModel) this.fxmlDocumentController.getJsonModel();
         StringBuilder sb = new StringBuilder();
@@ -81,15 +79,17 @@ public class CSVCreator {
         sb.deleteCharAt(sb.length() - 1);
 
         try {
+            if (!path.contains(".csv")) {
+                path += EXPORT_CSV_FILE_NAME;
+            }
             // TODO adjust implementation for not OSX OS
-            PrintWriter pw = new PrintWriter(EXPORT_CSV_FILE_NAME);
+            PrintWriter pw = new PrintWriter(path);
             pw.println(sb.toString());
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return null;
     }
 
     /**
@@ -100,68 +100,64 @@ public class CSVCreator {
      * @param item the item to be checked if the attributes are set.
      * @return true, if all defined attributes are set.
      */
-    private boolean checkItemAttributes(ItemModel item) {
+    private boolean checkItemAttributes(ItemModel item) throws MissingAttributeException {
         for (ExportAttribute attribute : exportAttributes) {
-            try {
-                switch (attribute) {
-                    case id:
-                        if (item.id == null) {
-                            throw new MissingAttributeException("NULL", "item.id");
-                        }
-                        break;
-                    case organizationalID:
-                        if (item.organizationId == null) {
-                            throw new MissingAttributeException(item.id, "item.organizationId");
-                        }
-                        break;
-                    case name:
-                        if (item.name == null) {
-                            throw new MissingAttributeException(item.id, "item.name");
-                        }
-                        break;
-                    case notes:
-                        if (item.notes == null) {
-                            throw new MissingAttributeException(item.id, "item.notes");
-                        }
-                        break;
-                    case login:
-                        if (item.login == null) {
-                            throw new MissingAttributeException(item.id, "item.login");
-                        }
-                        break;
-                    case loginURIs:
-                        if (item.login.uris == null) {
-                            throw new MissingAttributeException(item.id, "item.uris");
-                        }
-                        break;
-                    case loginURI:
-                        if (item.login.username == null) {
-                            throw new MissingAttributeException(item.id, "item.username");
-                        }
-                        break;
-                    case loginPassword:
-                        if (item.login.password == null) {
-                            throw new MissingAttributeException(item.id, "item.password");
-                        }
-                        break;
-                    case totp:
-                        if (item.login.totp == null) {
-                            throw new MissingAttributeException(item.id, "item.login.totp");
-                        }
-                        break;
-                    case collectionsIDs:
-                        if (item.collectionIds == null) {
-                            throw new MissingAttributeException(item.id, "item.collectionsIDs");
-                        }
-                        break;
-                    case favorite:
-                    case type:
-                        // not nullabel
-                        break;
+            switch (attribute) {
+                case id:
+                    if (item.id == null) {
+                        throw new MissingAttributeException("NULL", "item.id");
+                    }
+                    break;
+                case organizationalID:
+                    if (item.organizationId == null) {
+                        throw new MissingAttributeException(item.id, "item.organizationId");
+                    }
+                    break;
+                case name:
+                    if (item.name == null) {
+                        throw new MissingAttributeException(item.id, "item.name");
+                    }
+                    break;
+                case notes:
+                    if (item.notes == null) {
+                        throw new MissingAttributeException(item.id, "item.notes");
+                    }
+                    break;
+                case login:
+                    if (item.login == null) {
+                        throw new MissingAttributeException(item.id, "item.login");
+                    }
+                    break;
+                case loginURIs:
+                    if (item.login.uris == null) {
+                        throw new MissingAttributeException(item.id, "item.uris");
+                    }
+                    break;
+                case loginURI:
+                    if (item.login.username == null) {
+                        throw new MissingAttributeException(item.id, "item.username");
+                    }
+                    break;
+                case loginPassword:
+                    if (item.login.password == null) {
+                        throw new MissingAttributeException(item.id, "item.password");
+                    }
+                    break;
+                case totp:
+                    if (item.login.totp == null) {
+                        throw new MissingAttributeException(item.id, "item.login.totp");
+                    }
+                    break;
+                case collectionsIDs:
+                    if (item.collectionIds == null) {
+                        throw new MissingAttributeException(item.id, "item.collectionsIDs");
+                    }
+                    break;
+                case favorite:
+                case type:
+                    // not nullabel
+                    break;
 
-                }
-            } catch (MissingAttributeException e) {
-                e.printStackTrace();
             }
         }
         return true;

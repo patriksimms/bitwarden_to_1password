@@ -6,11 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
+import logic.CSVCreator;
+import logic.MissingAttributeException;
 import logic.models.ImportModel;
 import logic.models.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -20,7 +23,6 @@ import java.util.Scanner;
  * Uses the GSON from google https://github.com/google/gson
  *
  * @param <T> The Model for the JSONParser
- *
  * @author Patrik Simms
  */
 public class FXMLDocumentController<T extends Model> implements Initializable {
@@ -31,10 +33,15 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
     @FXML
     private Button btnLoadJSON;
 
+    @FXML
+    private Button btnSaveCSV;
+
+    private CSVCreator csvCreator;
+
     /**
      * the Model for the JSON to parse (by default usage of the application it will be ImportModel,
      * which is the default model for parsing from an bitwarden JSON).
-     *
+     * <p>
      * Contains the data from the parsed JSON
      */
     private T jsonModel;
@@ -56,7 +63,7 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        this.csvCreator = new CSVCreator(this);
     }
 
     /**
@@ -69,17 +76,40 @@ public class FXMLDocumentController<T extends Model> implements Initializable {
     public void handleLoadJSON(ActionEvent actionEvent) {
 
         FileChooser fileChooser = new FileChooser();
+        // TODO translations
+        fileChooser.setTitle("Wähle eine JSON Exportdatei von Bitwarden aus");
         File file = fileChooser.showOpenDialog(null);
 
-        // TODO ImportModel has to be of Type T
-//        loadJSON(file, ImportModel.class);
+        if (file != null) {
+            // TODO ImportModel has to be of Type T
+            loadJSON(file, (Class<T>) ImportModel.class);
+        }
+    }
+
+    @FXML
+    public void handleCSVWrite(ActionEvent actionEvent) {
+
+        FileChooser fileChooser = new FileChooser();
+        // TODO translations
+        fileChooser.setTitle("Speichere CSV Export für 1Password");
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                csvCreator.createCSV(file.getPath());
+            } catch (MissingAttributeException e) {
+                // TODO print stacktrace to GUI
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     /**
      * loads a JSON from a file.
      * Uses GSON to read from a JSON
      *
-     * @param file the File to read from
+     * @param file       the File to read from
      * @param modelClass the Model which will be used for parsing. The content will be parsed into
      *                   the Model
      */

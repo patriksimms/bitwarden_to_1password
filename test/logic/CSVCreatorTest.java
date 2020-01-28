@@ -1,7 +1,6 @@
 package logic;
 
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 import gui.FXMLDocumentController;
 import gui.FXMLDocumentControllerTest;
 import junitx.framework.FileAssert;
@@ -21,7 +20,6 @@ class CSVCreatorTest {
     private static final String testClasspath = FXMLDocumentControllerTest.class
             .getProtectionDomain().getCodeSource().getLocation().getPath();
 
-
     @Test
     public void createCSV() {
         File testFile = new File(testClasspath + "/ressources/bitwarden_export_test.json");
@@ -31,7 +29,15 @@ class CSVCreatorTest {
         fxmlDocumentController.loadJSON(testFile, ImportModel.class);
 
         CSVCreator test = new CSVCreator(fxmlDocumentController);
-        test.createCSV("");
+        try {
+            test.createCSV("bitwarden_to_1password.csv");
+        } catch (MissingAttributeException e) {
+            e.printStackTrace();
+        }
+
+        File generated = new File("bitwarden_to_1password.csv");
+
+        assert generated.delete();
     }
 
     @Test
@@ -42,16 +48,19 @@ class CSVCreatorTest {
 
         fxmlDocumentController.loadJSON(testFile, ImportModel.class);
 
-        String homeDir = System.getProperty("user.home");
-
         CSVCreator csvCreator = new CSVCreator(fxmlDocumentController);
-        csvCreator.createCSV(homeDir + "/projects/bitwarden_to_1password");
+        try {
+            csvCreator.createCSV("bitwarden_to_1password.csv");
+        } catch (MissingAttributeException e) {
+            e.printStackTrace();
+        }
 
-        File generated = new File(homeDir + "/projects/bitwarden_to_1password" +
-                "/bitwardenExport.csv");
+        File generated = new File("bitwarden_to_1password.csv");
 
         FileAssert.assertEquals(new File(testClasspath + "/ressources" +
                 "/exp_bitwarden_export_test.csv"), generated);
+
+        assert generated.delete();
     }
 
     @Test
@@ -62,17 +71,32 @@ class CSVCreatorTest {
 
         fxmlDocumentController.loadJSON(testFile, ImportModel.class);
 
-        String homeDir = System.getProperty("user.home");
-
         CSVCreator csvCreator = new CSVCreator(fxmlDocumentController);
-        csvCreator.createCSV(homeDir + "/projects/bitwarden_to_1password");
+        try {
+            csvCreator.createCSV("bitwarden_to_1password.csv");
+        } catch (MissingAttributeException e) {
+            e.printStackTrace();
+        }
 
-        File generated = new File(homeDir + "/projects/bitwarden_to_1password" +
-                "/bitwardenExport.csv");
+        File generated = new File("bitwarden_to_1password.csv");
 
         FileAssert.assertEquals(new File(testClasspath + "/ressources" +
                 "/exp_bitwarden_export_test.csv"), generated);
+
         assert generated.delete();
+    }
+
+    @Test
+    void create_csv_too_few_attributes() {
+        File testFile = new File(testClasspath + "/ressources/too_few_attributes_in_json.json");
+
+        FXMLDocumentController<ImportModel> fxmlDocumentController = new FXMLDocumentController<>();
+
+        fxmlDocumentController.loadJSON(testFile, ImportModel.class);
+
+        CSVCreator csvCreator = new CSVCreator(fxmlDocumentController);
+
+        Assertions.assertThrows(MissingAttributeException.class, () -> csvCreator.createCSV("bitwarden_to_1_password.csv"));
     }
 
     @Test

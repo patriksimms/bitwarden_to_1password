@@ -6,7 +6,7 @@ package logic;
  *
  * @author Patrik Simms
  */
-class MissingAttributeException extends Exception {
+public class MissingAttributeException extends Exception {
 
     /**
      * constructor
